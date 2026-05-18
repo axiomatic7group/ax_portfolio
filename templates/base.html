@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% load static %}
+        <link href="{% static 'style.css'%}" rel='stylesheet' type="text/css">
+    </head>
+    <body>
+        <div class="messages">
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.tags == "success" %} <div class="alert alert-success" role="alert">
+                    {% elif message.tags == "error" %} <div class="alert alert-warning" role="alert">
+                    {% else %} <div class="alert alert-primary" role="alert">
+                    {% endif %} {{ message }} </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="main_content">
+            {% block  main_content %}
+
+            {% endblock  %}
+        
+        </div>
+        
+    </body>
+</html>
