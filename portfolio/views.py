@@ -3,6 +3,9 @@ from django.views import View
 from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
+from django.forms.models import model_to_dict
+
+import requests, markdown
 
 from .models import *
 from .forms import *
@@ -38,11 +41,31 @@ class create_new_projects(View):
         context = {"new_project_form":new_project_form}
         return render(request, "portfolio/create_new_project.html", context)
 
-class view_portfolio(View):
-    def get(self, request):
+class view_project(View):
+    def get(self, request, project_id):
+        if check_authentication(request) != None:
+            return check_authentication(request)
         context = {}
-        return render(request, "portfolio/view_portfolio.html", context)
+
+        if portfolio_projects.objects.filter(id=project_id).exists():
+            project_to_see = portfolio_projects.objects.get(id=project_id)
+       
+            get_github_info = requests.get(f"https://api.{project_to_see.project_repo_link}")
+            get_github_readme = requests.get(f"https://api.{project_to_see.project_repo_link}/readme", headers={"Accept": "application/vnd.github.raw+json"})
+            if get_github_readme.status_code == 200:
+                github_readme = get_github_readme.text
+                context['github_readme'] = markdown.markdown(github_readme)
+            
+            if get_github_info.status_code == 200:
+                github_info = get_github_info.json()
+                context['github_info'] = github_info
+
+            context['project_to_see'] = model_to_dict(project_to_see)
+
+            return render(request, "portfolio/view_project.html", context)
+        else:
+            redirect('/portfolio')
     
     def post(self, request):
         context = {}
-        return render(request, "portfolio/view_portfolio.html", context)
+        return render(request, "portfolio/view_project.html", context)

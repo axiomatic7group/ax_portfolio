@@ -1,0 +1,17 @@
+
+{% extends "base.html" %}
+{% block  main_content %}
+    <div class="project_header">
+
+            <div class="project_name">
+                <h2>{{project_to_see.project_name}}</h2>
+                <p><a href="https://github.com/{{github_info.full_name}}" target="_blank">{{github_info.name}}</a> - <a target="_blank" href="https://github.com/{{github_info.owner.login}}"> {{github_info.owner.login}} </a></p>
+            </div>
+
+            <div class="readme">
+                {{github_readme|safe}}
+            </div>
+
+    </div>
+
+{% endblock  %}
