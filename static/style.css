@@ -1,3 +1,108 @@
+:root {
+    --bg-dark: oklch(0.1 0.075 255);
+    --bg: oklch(0.15 0.075 255);
+    --bg-light: oklch(0.2 0.075 255);
+    --text: oklch(0.96 0.1 255);
+    --text-muted: oklch(0.76 0.1 255);
+    --highlight: oklch(0.5 0.15 255);
+    --border: oklch(0.4 0.15 255);
+    --border-muted: oklch(0.3 0.15 255);
+    --primary: oklch(0.76 0.15 255);
+    --brand: #f02020;
+    --secondary: oklch(0.76 0.15 75);
+    --danger: oklch(0.7 0.15 30);
+    --warning: oklch(0.7 0.15 100);
+    --success: oklch(0.7 0.15 160);
+    --info: oklch(0.7 0.15 260);
+
+
+    --lg-bg-dark: oklch(0.92 0.075 255);
+    --lg-bg: oklch(0.96 0.075 255);
+    --lg-bg-light: oklch(1 0.075 255);
+    --lg-text: oklch(0.15 0.15 255);
+    --lg-text-muted: oklch(0.4 0.15 255);
+    --lg-highlight: oklch(1 0.15 255);
+    --lg-border: oklch(0.6 0.15 255);
+    --lg-border-muted: oklch(0.7 0.15 255);
+    --lg-primary: oklch(0.4 0.15 255);
+    --lg-secondary: oklch(0.4 0.15 75);
+    --lg-danger: oklch(0.5 0.15 30);
+    --lg-warning: oklch(0.5 0.15 100);
+    --lg-success: oklch(0.5 0.15 160);
+    --lg-info: oklch(0.5 0.15 260);
+}
+
 body {
-    background-color: blanchedalmond;
+    font-family: 'Lucida Consosle', monospace;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+}
+
+.top_nav {
+    color: var(--text) !important;
+}
+
+.top_nav a {
+    color: var(--text) !important;
+}
+
+form {
+    display: flex;
+    flex-flow: column;
+    width: fit-content;
+    margin: 1rem 2rem;
+}
+
+form p {
+  display: flex;
+  flex-flow: column;
+}
+
+form p label {
+    color: var(--text-muted);
+}
+
+form p input {
+    background-color: var(--bg-dark);
+    color: var(--text-muted);
+    border: solid thin var(--border);
+    border-radius: 5px;
+}
+
+form p select {
+    background-color: var(--bg-dark);
+    color: var(--text-muted);
+    border: solid thin var(--border);
+    border-radius: 5px;
+}
+
+form p textarea {
+    background-color: var(--bg-dark);
+    color: var(--text-muted);
+    border: solid thin var(--border);
+    border-radius: 5px;
+}
+
+form p input:hover {
+    background-color: var(--bg-light);
+    color: var(--text);
+    border: solid thin var(--border-muted);
+    border-radius: 5px;
+}
+
+form p select:hover {
+    background-color: var(--bg-light);
+    color: var(--text);
+    border: solid thin var(--border-muted);
+    border-radius: 5px;
+}
+
+form p textarea:hover {
+    background-color: var(--bg-light);
+    color: var(--text);
+    border: solid thin var(--border-muted);
+    border-radius: 5px;
 }
