@@ -92,8 +92,6 @@ class view_project(View):
 
 class view_portfolio(View):
     def get(self, request):
-        if check_authentication(request) != None:
-            return check_authentication(request)
         context = {}
 
         get_all_projects = portfolio_projects.objects.all()

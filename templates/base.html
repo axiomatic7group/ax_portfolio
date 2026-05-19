@@ -29,31 +29,35 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/contact">Contact Us</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about">About Us</a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
 
 
-        <div class="messages">
-            {% if messages %}
+        
+        {% if messages %}
+            <div class="messages">
                 {% for message in messages %}
                     {% if message.tags == "success" %} <div class="alert alert-success" role="alert">
                     {% elif message.tags == "error" %} <div class="alert alert-warning" role="alert">
                     {% else %} <div class="alert alert-primary" role="alert">
                     {% endif %} {{ message }} </div>
                 {% endfor %}
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
+        
 
         <div class="main_content">
             {% block  main_content %}
 
             {% endblock  %}
-        
         </div>
 
-        <nav class="navbar navbar-dark bg-dark bottom-nav">
+        <nav class="navbar bottom-nav">
             <div class="footer_nav">
                 <a class="navbar-brand" href="/">Ax Portfolio</a> <!-- input:title -->
             </div>

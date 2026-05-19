@@ -23,5 +23,7 @@ urlpatterns = [
     path('portfolio/', include("portfolio.urls")),
     path('admin/', admin.site.urls),
     path('login/', views.authenticate_users.as_view(), name='login_html'),
+    path('about/', views.about_us.as_view(), name='about_us_html'),
+    path('contact/', views.contact_us.as_view(), name='contact_us_html'),
 
 ]

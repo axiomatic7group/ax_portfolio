@@ -32,7 +32,12 @@
     --lg-info: oklch(0.5 0.15 260);
 }
 
+html { 
+    min-height: 100%;
+}
+
 body {
+    min-height: 100vh;
     font-family: 'Lucida Consosle', monospace;
     background: var(--bg);
     color: var(--text);
@@ -41,12 +46,29 @@ body {
     justify-content: space-between;
 }
 
+a {
+    text-decoration: none;
+    color: var(--text);
+    font-weight: bold;
+}
+
+.main_content { 
+    min-height: 90vh;
+}
+
 .top_nav {
     color: var(--text) !important;
+    border-bottom: var(--border) solid thin;
 }
 
 .top_nav a {
     color: var(--text) !important;
+    font-weight: bold;
+}
+
+.bottom-nav a {
+    color: var(--text) !important;
+    font-weight: bold;
 }
 
 .bottom-nav {
@@ -54,6 +76,9 @@ body {
     left: 0;
     bottom: 0;
     right: 0;
+    background-color: var(--bg-dark);
+    border-top: var(--border-muted) solid thin;
+
 }
 
 .readme {

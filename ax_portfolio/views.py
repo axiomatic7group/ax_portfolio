@@ -24,3 +24,25 @@ class authenticate_users(View):
 
         context = {'user_auth_form':user_auth_form}
         return render(request, './login.html', context)
+
+class about_us(View):
+    def get(self, request):
+        context = {}
+
+        return render(request, './about_us.html', context)
+    
+    def post(self, request):
+        context = {}
+
+        return render(request, './about_us.html', context)
+
+class contact_us(View):
+    def get(self, request):
+        context = {}
+
+        return render(request, './contact_us.html', context)
+    
+    def post(self, request):
+        context = {}
+        
+        return render(request, './contact_us.html', context)
