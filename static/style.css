@@ -62,6 +62,10 @@ body {
   padding: 1rem 2rem;
 }
 
+.readme img {
+    width: 100%;
+}
+
 .project_header {
     border: solid thin var(--border);
   padding: 1% 2%;
@@ -139,4 +143,110 @@ form p textarea:hover {
     color: var(--text);
     border: solid thin var(--border-muted);
     border-radius: 5px;
+}
+
+.project_type_p {
+    background: var(--bg-dark);
+    padding: 0.25rem 1rem;
+    color: var(--text-muted) !important;
+    border: thin solid var(--border-muted) !important;
+    border-radius: 15px !important;
+    align-self: center;
+}
+
+.project_nav {
+    display: flex;
+  justify-content: space-between;
+}
+
+.project_card {
+    width: 45%;
+    margin: 2%;
+    border: solid thin var(--border);
+    border-radius: 5px;
+    display: flex;
+    background: linear-gradient(0deg, var(--bg-light) 0%, var(--bg-dark) 100%) ;
+    padding: 1rem;
+    justify-content: space-evenly;
+    min-height: 16rem;
+}
+
+.project_card:hover {
+    width: 45%;
+    margin: 2%;
+    border: solid thin var(--border-muted);
+    border-radius: 5px;
+    display: flex;
+    background: var(--bg-light);
+    padding: 1rem;
+    justify-content: space-evenly;
+    min-height: 16rem;
+}
+
+.project_card img { 
+    max-width: 60%;
+    margin-right: 3%;
+}
+
+.projects_list {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    padding: 1% 2%;
+    background: linear-gradient(0deg, var(--bg) 0%, var(--bg-light) 100%) ;
+}
+
+.card-body {
+    display: flex;
+  flex-flow: column;
+  justify-content: space-evenly;
+}
+
+.card-body p {
+    font-size: 14px;
+  color: var(--text-muted);
+}
+
+.card-body a {
+    align-self: center;
+}
+
+.card-body h5 {
+    font-weight: bold;
+}
+
+.card-body li {
+    background: var(--bg-dark);
+    padding: 0.25rem 1rem;
+    color: var(--text-muted) !important;
+    border: thin solid var(--border-muted) !important;
+    border-radius: 15px !important;
+    align-self: center;
+}
+
+@media screen and (max-width: 600px) {
+    .project_card {
+        width: 95%;
+        margin: 2%;
+        border: solid thin var(--border);
+        border-radius: 5px;
+        display: flex;
+        background: linear-gradient(0deg, var(--bg-light) 0%, var(--bg-dark) 100%) ;
+        padding: 1rem;
+        justify-content: space-evenly;
+        min-height: 16rem;
+    }
+
+    .project_card:hover {
+        width: 95%;
+        margin: 2%;
+        border: solid thin var(--border-muted);
+        border-radius: 5px;
+        display: flex;
+        background: var(--bg-light) ;
+        padding: 1rem;
+        justify-content: space-evenly;
+        min-height: 16rem;
+    }
+
 }
