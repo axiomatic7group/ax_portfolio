@@ -38,7 +38,7 @@ html {
 
 body {
     min-height: 100vh;
-    font-family: 'Lucida Consosle', monospace;
+    font-family: verdana, sans-serif;
     background: var(--bg);
     color: var(--text);
     display: flex;
@@ -56,23 +56,74 @@ a {
     min-height: 90vh;
 }
 
+.navbar-toggler {
+    background-color: var(--bg-light);
+    border: thin solid var(--border);
+    border-radius: 5px;
+
+}
+
+.md {
+    margin: 1%;
+  padding: 1% 2%;
+  border: solid thin var(--border);
+  border-radius: 10px;
+  background-color: var(--bg-light);
+}
+
+.md img {
+    max-width: 75%;
+    margin: 0 12.5%;
+}
+
 .top_nav {
-    color: var(--text) !important;
+    color: var(--text);
     border-bottom: var(--border) solid thin;
 }
 
+.links {
+    min-width: 15%;
+}
+
 .top_nav a {
-    color: var(--text) !important;
+    color: var(--text);
     font-weight: bold;
 }
 
 .bottom-nav a {
+    color: var(--text);
+    font-weight: bold;
+}
+
+.top_nav a:hover {
+    color: var(--text-muted);
+    font-weight: bold;
+}
+
+.bottom-nav a:hover {
+    color: var(--text-muted);
+    font-weight: bold;
+}
+
+.navbar-brand {
+    text-decoration: none;
+    color: var(--brand) !important;
+    font-weight: bold;
+}
+
+.navbar-brand:hover {
+    text-decoration: none;
     color: var(--text) !important;
     font-weight: bold;
 }
 
+.bottom-nav .links a {
+    margin: 0 1%;
+
+}
+
 .bottom-nav {
-    color: var(--text) !important;
+    color: var(--text);
     left: 0;
     bottom: 0;
     right: 0;
@@ -88,7 +139,8 @@ a {
 }
 
 .readme img {
-    width: 100%;
+    max-width: 75%;
+    margin: 0 12.5%;
 }
 
 .project_header {
@@ -219,6 +271,19 @@ form p textarea:hover {
     flex-wrap: wrap;
     padding: 1% 2%;
     background: linear-gradient(0deg, var(--bg) 0%, var(--bg-light) 100%) ;
+}
+
+.projects_list_header h2 {
+    color: var(--brand);
+    font-weight: bold;
+}
+
+.projects_list_header {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    padding: 1% 2%;
+    background: linear-gradient(0deg, var(--bg-light) 0%, var(--bg-dark) 100%) ;
 }
 
 .card-body {

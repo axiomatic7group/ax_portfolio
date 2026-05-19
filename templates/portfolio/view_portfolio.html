@@ -1,6 +1,13 @@
 
 {% extends "base.html" %}
 {% block  main_content %}
+    <div class="projects_list_header">
+        <h2>Axiomatic Lab Portfolio</h2>
+        <p>Ax Lab exists to close the gap between AI potential and enterprise reality. 
+            We believe that the best AI behaves like a professional: it is accountable, transparent, and secure. 
+            We are not just building software; we are building the onboarding framework for the next generation of your workforce.
+        </p>
+    </div>
     <div class="projects_list">
     {% for project in all_projects %}
         <div class="project_card">

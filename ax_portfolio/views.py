@@ -3,6 +3,8 @@ from django.views import View
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 
+import markdown, requests
+
 class authenticate_users(View):
     def get(self, request):
         user_auth_form = AuthenticationForm(request.GET or None)
@@ -26,15 +28,35 @@ class authenticate_users(View):
         return render(request, './login.html', context)
 
 class about_us(View):
-    def get(self, request):
+    def about_us(request):
         context = {}
+
+        with open('about_us.md', 'r', encoding='utf-8') as f:
+            text = f.read()
+
+        context['content'] = markdown.markdown(text)
 
         return render(request, './about_us.html', context)
     
-    def post(self, request):
+    def privacy(request):
         context = {}
 
-        return render(request, './about_us.html', context)
+        with open('privacy_policy.md', 'r', encoding='utf-8') as f:
+            text = f.read()
+
+        context['content'] = markdown.markdown(text)
+
+        return render(request, './privacy.html', context)
+    
+    def terms(request):
+        context = {}
+
+        with open('terms_of_service.md', 'r', encoding='utf-8') as f:
+            text = f.read()
+
+        context['content'] = markdown.markdown(text)
+
+        return render(request, './terms.html', context)
 
 class contact_us(View):
     def get(self, request):

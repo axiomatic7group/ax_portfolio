@@ -23,7 +23,9 @@ urlpatterns = [
     path('portfolio/', include("portfolio.urls")),
     path('admin/', admin.site.urls),
     path('login/', views.authenticate_users.as_view(), name='login_html'),
-    path('about/', views.about_us.as_view(), name='about_us_html'),
     path('contact/', views.contact_us.as_view(), name='contact_us_html'),
+    path('about/', views.about_us.about_us, name='about_us_html'),
+    path('privacy/', views.about_us.privacy, name='privacy_html'),
+    path('terms/', views.about_us.terms, name='terms_html'),
 
 ]
