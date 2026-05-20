@@ -13,6 +13,8 @@ from .forms import *
 def check_authentication(check_request):
     if not check_request.user.is_authenticated:
         return redirect("/login")
+    elif not check_request.user.is_staff:
+        return redirect("/login")
 
 class create_new_projects(View):
     def get(self, request):
@@ -43,8 +45,7 @@ class create_new_projects(View):
 
 class view_project(View):
     def get(self, request, project_id):
-        if check_authentication(request) != None:
-            return check_authentication(request)
+        
         context = {}
 
         if portfolio_projects.objects.filter(id=project_id).exists():
@@ -67,8 +68,7 @@ class view_project(View):
             redirect('/portfolio')
     
     def post(self, request, project_id):
-        if check_authentication(request) != None:
-            return check_authentication(request)
+        
         context = {}
 
         if portfolio_projects.objects.filter(id=project_id).exists():

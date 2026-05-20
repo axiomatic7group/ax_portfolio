@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 
 import markdown, requests
+from portfolio.forms import DetailedSignUpForm
 
 class authenticate_users(View):
     def get(self, request):
@@ -62,9 +63,24 @@ class contact_us(View):
     def get(self, request):
         context = {}
 
+        DetailedSignUpForm_form = DetailedSignUpForm(request.GET or None)
+
+        context['DetailedSignUpForm_form'] = DetailedSignUpForm_form
+
         return render(request, './contact_us.html', context)
     
     def post(self, request):
         context = {}
-        
+
+        if request.method == 'POST':
+            DetailedSignUpForm_form = DetailedSignUpForm(request.POST)
+            if DetailedSignUpForm_form.is_valid():
+                DetailedSignUpForm_form.save()
+                return redirect('/login')
+        else:
+            DetailedSignUpForm_form = DetailedSignUpForm()
+
+        context['DetailedSignUpForm_form'] = DetailedSignUpForm_form
         return render(request, './contact_us.html', context)
+
+
