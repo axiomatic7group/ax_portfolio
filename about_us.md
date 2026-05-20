@@ -1,4 +1,6 @@
-## About Us: Deterministic AI for High-Compliance Markets
+## About Us 
+
+**Deterministic AI for High-Compliance Markets**
 
 Welcome to Ax Lab (Axiomatic Group), the specialized engineering team bridging the gap between artificial intelligence potential and strict enterprise reality.
 Standard agentic AI frameworks fail in production because they are purely probabilistic. They lack structured organizational memory, skip crucial authorization gates, and run up volatile compute costs through uncorrected recursive errors. In high-stakes fields like investment banking, financial technology, and regulated corporate treasury operations, these failures introduce unmitigated legal, financial, and regulatory risk.
@@ -19,7 +21,9 @@ Prior to launching Axiomatic Lab, Daniel operated as the Head of the CFO Solutio
 His background includes scaling capital architecture systems for a 75-person institutional finance organization, deploying advanced statistical forecasting models, and establishing robust partnerships across ALM, Corporate Treasury, and Risk Management divisions to meet stringent regulatory expectations. Daniel holds a BS in Business Management with a concentration in Fintech from the Martin Tuchman School of Management at NJIT, where he previously engineered automated quantitative trading systems as President of the NJIT Student Investment Fund.
 
 ------------------------------
-## Engineered for High Compliance: The Axiom Layers
+## Engineered for High Compliance 
+
+**The Axiom Layers**
 
 Our core platform solves the structural failure points of generative models through four deterministic software layers:
 
@@ -73,7 +77,8 @@ We build data infrastructure designed to withstand strenuous User Acceptance Tes
 ------------------------------
 
 
-🔒 Secure Your Automation: Inquire About an Enterprise Pilot
+#🔒 Secure Your Automation: Inquire About an Enterprise Pilot Today!
+
 Stop experimenting with brittle prompts. Onboard auditable, hierarchical, and resilient digital labor built for high-compliance fintech and banking infrastructure.
 
 Now accepting applications for Enterprise Pilot Programs.
