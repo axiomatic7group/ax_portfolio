@@ -5,7 +5,12 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.forms.models import model_to_dict
 
-import requests, markdown
+from django.conf import settings
+from django.contrib import messages
+
+
+import requests, markdown, json, sqlite3
+import pandas as pd
 
 from .models import *
 from .forms import *
@@ -15,6 +20,8 @@ def check_authentication(check_request):
         return redirect("/login")
     elif not check_request.user.is_staff:
         return redirect("/login")
+    
+        
 
 class create_new_projects(View):
     def get(self, request):
@@ -99,3 +106,48 @@ class view_portfolio(View):
         context['all_projects'] = get_all_projects.values()
 
         return render(request, "portfolio/view_portfolio.html", context)
+
+
+class create_campaign_funnel(View):
+    def get(self, request):
+        if check_authentication(request) != None:
+            return check_authentication(request)
+
+        new_campaign_funnel_form = add_new_campaign_funnel(request.GET or None)
+
+        context = {"new_campaign_funnel_form":new_campaign_funnel_form}
+        return render(request, "portfolio/create_new_campaign_funnel.html", context)
+    
+    def post(self, request):
+        if check_authentication(request) != None:
+            return check_authentication(request)
+        context = {}
+
+        new_campaign_funnel_form = add_new_campaign_funnel(request.POST or None)
+
+        if new_campaign_funnel_form.is_valid():
+            new_campaign_funnel = new_campaign_funnel_form.save(commit=False)
+            new_campaign_funnel.date_created = timezone.now()
+
+
+            temp_funnel_dict = json.loads(new_campaign_funnel.funnel_input_form)
+            temp_funnel_dict_key_list = list(temp_funnel_dict.keys())
+            
+            temp_funnel_dict_key_list.append("user_id")
+            temp_funnel_name = str(new_campaign_funnel.funnel_name).replace(" ", "_")
+
+            db_conf = settings.DATABASES['default']
+            db_conn = sqlite3.connect(db_conf['NAME'])
+
+            new_table_df = pd.DataFrame(columns=temp_funnel_dict_key_list)
+        
+            try:
+                new_table_df.to_sql(temp_funnel_name, db_conn, if_exists="fail", index=False)
+                messages.success(request, "campaign funnel has been created.")
+                new_campaign_funnel_form = add_new_campaign_funnel()
+            except:
+                messages.warning(request, "table already exists with this name.")            
+
+
+        context["new_campaign_funnel_form"] = new_campaign_funnel_form
+        return render(request, "portfolio/create_new_campaign_funnel.html", context)

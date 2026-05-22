@@ -6,13 +6,6 @@ from django import forms
 
 from .models import *
 
-class add_new_projects(ModelForm):
-
-    class Meta:
-        model = portfolio_projects
-        exclude = ['date_created', 'project_hero_image']
-        fields = "__all__"
-
 
 class DetailedSignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=True)
@@ -40,3 +33,17 @@ class DetailedSignUpForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+class add_new_projects(ModelForm):
+
+    class Meta:
+        model = portfolio_projects
+        exclude = ['date_created', 'project_hero_image']
+        fields = "__all__"
+
+
+class add_new_campaign_funnel(ModelForm):
+
+    class Meta:
+        model = campaign_funnel
+        fields = "__all__"

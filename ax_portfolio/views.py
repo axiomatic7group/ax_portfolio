@@ -76,6 +76,7 @@ class contact_us(View):
             DetailedSignUpForm_form = DetailedSignUpForm(request.POST)
             if DetailedSignUpForm_form.is_valid():
                 DetailedSignUpForm_form.save()
+                
                 return redirect('/login')
         else:
             DetailedSignUpForm_form = DetailedSignUpForm()
