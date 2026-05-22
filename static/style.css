@@ -314,6 +314,25 @@ form p textarea:hover {
     align-self: center;
 }
 
+.main_funnel_hero {
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.main_funnel_hero_visual {
+    width: 50%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    margin: 1% 2%;
+    
+}
+
+.funnel_hero {
+    max-width: 100%;
+}
+
 @media screen and (max-width: 600px) {
     .project_card {
         width: 95%;
@@ -338,5 +357,13 @@ form p textarea:hover {
         justify-content: space-evenly;
         min-height: 16rem;
     }
+    .main_funnel_hero_visual {
+        width: 95%;
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        margin: 1% 2%;   
+    }
+
 
 }

@@ -144,6 +144,7 @@ class create_campaign_funnel(View):
             try:
                 new_table_df.to_sql(temp_funnel_name, db_conn, if_exists="fail", index=False)
                 messages.success(request, "campaign funnel has been created.")
+                new_campaign_funnel.save()
                 new_campaign_funnel_form = add_new_campaign_funnel()
             except:
                 messages.warning(request, "table already exists with this name.")            
@@ -151,3 +152,100 @@ class create_campaign_funnel(View):
 
         context["new_campaign_funnel_form"] = new_campaign_funnel_form
         return render(request, "portfolio/create_new_campaign_funnel.html", context)
+
+class view_campaign_funnel(View):
+    def get(self, request, funnel_id):       
+        context = {}
+
+        if campaign_funnel.objects.filter(id=funnel_id).exists():
+            temp_campaign_funnel = campaign_funnel.objects.get(id=funnel_id)
+            context['campaign_funnel'] = model_to_dict(temp_campaign_funnel)
+
+            context["new_user_form"] = DetailedSignUpForm(request.GET or None)
+            temp_input_form = json.loads(temp_campaign_funnel.funnel_input_form)
+            for key in temp_input_form.keys():
+                if not isinstance(temp_input_form[key], list):
+                    temp_input_form[key] = [temp_input_form[key]]
+            context["funnel_input_form"] = temp_input_form
+
+            if temp_campaign_funnel.funnel_hero_img:
+                context["funnel_hero_img"] = temp_campaign_funnel.funnel_hero_img
+            else:
+                with open(temp_campaign_funnel.funnel_hero_md, 'r', encoding='utf-8') as f:
+                    text = f.read()
+                context["funnel_hero_md"] = markdown.markdown(text)
+
+            return render(request, "portfolio/view_campaign_funnel.html", context)
+        else:
+            return redirect("/portfolio")
+    
+    def post(self, request, funnel_id):
+        context = {}
+
+        if campaign_funnel.objects.filter(id=funnel_id).exists():
+            temp_campaign_funnel = campaign_funnel.objects.get(id=funnel_id)
+            context['campaign_funnel'] = model_to_dict(temp_campaign_funnel)
+
+            temp_funnel_name = str(temp_campaign_funnel.funnel_name).replace(" ", "_")
+
+            temp_user_form = DetailedSignUpForm(request.POST)
+
+            if temp_user_form.is_valid():
+                new_user = temp_user_form.save(commit=False)
+                new_user.save()
+                temp_output_dict = {"user_id":str(new_user.id)}
+                for key, value in json.loads(temp_campaign_funnel.funnel_input_form).items():
+                    if key in request.POST.keys():
+                        temp_output_dict[key] = request.POST[key]
+                output_df = pd.DataFrame(temp_output_dict, index=[0])
+
+                db_conf = settings.DATABASES['default']
+                db_conn = sqlite3.connect(db_conf['NAME'])
+            
+                try:
+                    output_df.to_sql(temp_funnel_name, db_conn, if_exists="append", index=False)
+                    messages.success(request, "Thank you for reaching out!.")
+                except:
+                    messages.warning(request, "Something went wrong, please try again.")
+                
+
+
+            context["new_user_form"] = DetailedSignUpForm(request.POST or None)
+            temp_input_form = json.loads(temp_campaign_funnel.funnel_input_form)
+            for key in temp_input_form.keys():
+                if not isinstance(temp_input_form[key], list):
+                    temp_input_form[key] = [temp_input_form[key]]
+            context["funnel_input_form"] = temp_input_form
+            
+            if temp_campaign_funnel.funnel_hero_img:
+                context["funnel_hero_img"] = temp_campaign_funnel.funnel_hero_img
+            else:
+                with open(temp_campaign_funnel.funnel_hero_md, 'r', encoding='utf-8') as f:
+                    text = f.read()
+                context["funnel_hero_md"] = markdown.markdown(text)
+
+        return render(request, "portfolio/view_campaign_funnel.html", context)
+    
+    def see_all_info(request, funnel_id):
+        if check_authentication(request) != None:
+            return check_authentication(request)
+        
+        context = {}
+
+        if campaign_funnel.objects.filter(id=funnel_id).exists():
+            temp_campaign_funnel = campaign_funnel.objects.get(id=funnel_id)
+            context['campaign_funnel'] = model_to_dict(temp_campaign_funnel)
+
+            temp_funnel_name = str(temp_campaign_funnel.funnel_name).replace(" ", "_")
+            db_conf = settings.DATABASES['default']
+            db_conn = sqlite3.connect(db_conf['NAME'])
+
+            temp_df = pd.read_sql(f"SELECT * FROM {temp_funnel_name};", db_conn)
+            context['temp_df'] = temp_df.to_dict('records')
+
+            return render(request, "portfolio/view_all_campaign_funnel.html", context)
+
+        else:
+            return redirect("/portfolio")
+
+    
