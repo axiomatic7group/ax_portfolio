@@ -8,7 +8,7 @@ This is an Open-Source project we created both to be used as our main website fo
 
 ------------------------------
 
-![Axiom, is the Governance, Semantic, Action & Reasoning Layer for Digital Labor](https://github.com/axiomatic7group/portfolio/raw/main/assets/axiomatic_lab_hero.png)
+![Axiom, is the Governance, Semantic, Action & Reasoning Layer for Digital Labor](https://github.com/axiomatic7group/ax_portfolio/raw/main/assets/axiomatic_lab_hero.png)
 
 ## Axiom, The Governance, Semantic, Action, & Reasoning Layer for Digital Labor.
 
