@@ -32,6 +32,60 @@
     --lg-info: oklch(0.5 0.15 260);
 }
 
+.main_funnel_hero_form ul {
+    visibility: hidden;
+    height: 0;
+    margin: 0;
+}
+
+#message {
+    color: var(--brand) !important;
+    font-weight: bold !important;
+}
+
+input[type=submit] {
+    background-color: var(--border);
+    color: var(--text-muted);
+    border: solid thin var(--bg-dark);
+    border-radius: 5px;
+    padding: 2%;
+    color: var(--brand);
+    font-size: larger;
+    font-weight: bold;
+} 
+
+input[type=submit]:hover {
+    background-color: var(--border-muted);
+    color: var(--text);
+    border: solid thin var(--bg-light);
+    border-radius: 5px;
+    padding: 2%;
+    color: var(--brand);
+    font-size: larger;
+    font-weight: bold;
+}
+
+.main_funnel_hero_form { 
+    width: 30%;
+}
+
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+
+form span {
+    color: var(--text-muted);
+    font-size: small;
+}
+
+form ul {
+    color: var(--text-muted);
+    font-size: small;
+}
+
+
 html { 
     min-height: 100%;
 }
@@ -178,45 +232,49 @@ form p {
 
 form p label {
     color: var(--text-muted);
+    font-weight: bold;
+    font-size: medium;
 }
 
 form p input {
-    background-color: var(--bg-dark);
+    background-color: var(--bg-light);
     color: var(--text-muted);
     border: solid thin var(--border);
     border-radius: 5px;
 }
 
 form p select {
-    background-color: var(--bg-dark);
-    color: var(--text-muted);
+    background-color: var(--bg-light);
+    color: var(--brand);
     border: solid thin var(--border);
     border-radius: 5px;
+    font-weight: bold;
+    padding-left: 3%;
 }
 
 form p textarea {
-    background-color: var(--bg-dark);
+    background-color: var(--bg-light);
     color: var(--text-muted);
     border: solid thin var(--border);
     border-radius: 5px;
 }
 
 form p input:hover {
-    background-color: var(--bg-light);
+    background-color: var(--bg-dark);
     color: var(--text);
     border: solid thin var(--border-muted);
     border-radius: 5px;
 }
 
 form p select:hover {
-    background-color: var(--bg-light);
+    background-color: var(--bg-dark);
     color: var(--text);
     border: solid thin var(--border-muted);
     border-radius: 5px;
 }
 
 form p textarea:hover {
-    background-color: var(--bg-light);
+    background-color: var(--bg-dark);
     color: var(--text);
     border: solid thin var(--border-muted);
     border-radius: 5px;
@@ -321,7 +379,7 @@ form p textarea:hover {
 }
 
 .main_funnel_hero_visual {
-    width: 50%;
+    width: 65%;
     display: flex;
     flex-flow: column;
     justify-content: center;
@@ -363,6 +421,9 @@ form p textarea:hover {
         flex-flow: column;
         justify-content: center;
         margin: 1% 2%;   
+    }
+    .main_funnel_hero_form { 
+        width: 95%;
     }
 
 

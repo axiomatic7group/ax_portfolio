@@ -23,9 +23,9 @@
                     <p>
                         <label for="{{key}}">{{key}} :</label><br>
                         {% if value|length == 1%}
-                            <input type="text" id="{{key}}" name="{{key}}" placeholder={{value}}><br>
+                            <textarea id="{{key}}" name="{{key}}" placeholder={{value}}></textarea>
                         {% else %}
-                            <select name="cars" id="cars">
+                            <select name="list_{{key}}" id="list_{{key}}">
                                 {% for i in value %}
                                     <option value="{{i}}">{{i}}</option>
                                 {% endfor %}

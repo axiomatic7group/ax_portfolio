@@ -240,7 +240,7 @@ class view_campaign_funnel(View):
             db_conf = settings.DATABASES['default']
             db_conn = sqlite3.connect(db_conf['NAME'])
 
-            temp_df = pd.read_sql(f"SELECT * FROM {temp_funnel_name};", db_conn)
+            temp_df = pd.read_sql(f'SELECT * FROM \"{temp_funnel_name}\";', db_conn)
             context['temp_df'] = temp_df.to_dict('records')
 
             return render(request, "portfolio/view_all_campaign_funnel.html", context)

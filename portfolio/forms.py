@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from django import forms
+from django.utils.safestring import  mark_safe
 
 from .models import *
 
@@ -11,6 +12,17 @@ class DetailedSignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=True)
     last_name = forms.CharField(max_length=30, required=True)
     email = forms.EmailField(required=True)
+    agree_to_terms = forms.BooleanField(
+        required=True,
+        label=mark_safe(
+            'I have read and agree to the <a href="/terms/" target="_blank" rel="noopener">Terms of Use</a> '
+            'and acknowledge the data processing practices described in the '
+            '<a href="/privacy/" target="_blank" rel="noopener">Privacy Policy</a>.'
+        ),
+        error_messages={
+            'required': 'You must accept the Terms of Use and acknowledge the Privacy Policy to proceed.'
+        }
+    )
 
     class Meta(UserCreationForm.Meta):
         model = User
