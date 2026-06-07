@@ -3,7 +3,7 @@ from django.views import View
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 
-import requests, markdown, json
+import requests, markdown, json, sqlite3
 import pandas as pd
 from sqlalchemy import create_engine
 from portfolio.forms import DetailedSignUpForm
@@ -141,12 +141,12 @@ class home_page(View):
                 output_df = pd.DataFrame(temp_output_dict, index=[0])
 
                 db_conf = settings.DATABASES['default']
-                conn_string = f"postgresql://{db_conf['USER']}:{db_conf['PASSWORD']}@{db_conf['HOST']}:{db_conf['PORT']}/{db_conf['NAME']}"
-                engine = create_engine(conn_string)
+                db_conn = sqlite3.connect(db_conf['NAME'])
             
                 try:
-                    output_df.to_sql(temp_funnel_name, engine, if_exists="append", index=False)
-                    messages.success(request, "Thank you for reaching out!.")
+                    output_df.to_sql(temp_funnel_name, db_conn, if_exists="append", index=False)
+                    messages.success(request, "Thank you for your interest, we will be in touch soon!.")
+                    return redirect("/")
                 except:
                     messages.warning(request, "Something went wrong, please try again.")
                 

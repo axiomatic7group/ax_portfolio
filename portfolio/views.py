@@ -204,7 +204,8 @@ class view_campaign_funnel(View):
             
                 try:
                     output_df.to_sql(temp_funnel_name, db_conn, if_exists="append", index=False)
-                    messages.success(request, "Thank you for reaching out!.")
+                    messages.success(request, "Thank you for your interest, we will be in touch soon!.")
+                    redirect("/")
                 except:
                     messages.warning(request, "Something went wrong, please try again.")
                 
@@ -235,13 +236,18 @@ class view_campaign_funnel(View):
         if campaign_funnel.objects.filter(id=funnel_id).exists():
             temp_campaign_funnel = campaign_funnel.objects.get(id=funnel_id)
             context['campaign_funnel'] = model_to_dict(temp_campaign_funnel)
+            temp_users_list = pd.DataFrame(User.objects.all().values())
+            relevant_user_list = temp_users_list[['id', 'email', 'first_name', 'last_name', 'date_joined']]
 
             temp_funnel_name = str(temp_campaign_funnel.funnel_name).replace(" ", "_")
             db_conf = settings.DATABASES['default']
             db_conn = sqlite3.connect(db_conf['NAME'])
 
             temp_df = pd.read_sql(f'SELECT * FROM \"{temp_funnel_name}\";', db_conn)
-            context['temp_df'] = temp_df.to_dict('records')
+            temp_df['user_id'] = temp_df['user_id'].astype('int')
+
+            output = pd.merge(temp_df, relevant_user_list, how='left', left_on='user_id', right_on='id')
+            context['temp_df'] = output.style.set_table_attributes('class="table" style="color: var(--text);"').to_html(index=False)
 
             return render(request, "portfolio/view_all_campaign_funnel.html", context)
 

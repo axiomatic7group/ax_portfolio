@@ -25,7 +25,7 @@
                         {% if value|length == 1%}
                             <textarea id="{{key}}" name="{{key}}" placeholder={{value}}></textarea>
                         {% else %}
-                            <select name="list_{{key}}" id="list_{{key}}">
+                            <select name="{{key}}" id="{{key}}">
                                 {% for i in value %}
                                     <option value="{{i}}">{{i}}</option>
                                 {% endfor %}
