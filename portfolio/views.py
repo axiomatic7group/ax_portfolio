@@ -255,3 +255,138 @@ class view_campaign_funnel(View):
             return redirect("/portfolio")
 
     
+
+class campaign_faq_view(View):
+    def get(self, request, campaign_faq_id):    
+        context = {}
+        if campaign_faq.objects.filter(id=campaign_faq_id).exists():
+            temp_campaign_faq = campaign_faq.objects.get(id=campaign_faq_id)
+            context['campaign_faq'] = model_to_dict(temp_campaign_faq)
+            return render(request, "portfolio/view_campaign_faq.html", context)
+        else:
+            return redirect("/portfolio")
+
+    def post(self, request, campaign_faq_id):
+        context = {}
+
+        if "user_message" in request.POST.keys():
+            print(request.POST)
+
+        if campaign_faq.objects.filter(id=campaign_faq_id).exists():
+            temp_campaign_faq = campaign_faq.objects.get(id=campaign_faq_id)
+            context['campaign_faq'] = model_to_dict(temp_campaign_faq)
+
+            return render(request, "portfolio/view_campaign_faq.html", context)
+        else:
+            return redirect("/portfolio")
+
+    def see_blog_post(request, blog_post_id):
+        context = {}
+
+        if campaign_blog.objects.filter(id=blog_post_id).exists():
+            temp_campaign_blog = campaign_blog.objects.get(id=blog_post_id)
+            context['campaign_blog'] = model_to_dict(temp_campaign_blog)
+
+            return render(request, "portfolio/view_blog_post.html", context)
+        else:
+            return redirect("/portfolio")
+
+class link_in_bio(View):
+    def get(self, request):
+        context = {}
+        if check_authentication(request) != None:
+            return check_authentication(request)
+        
+        temp_user_info = User.objects.get(id=request.user.id)
+        print(temp_user_info)
+
+        if user_link_in_bio_info.objects.filter(link_user_info=temp_user_info).exists():
+            print("yes")
+            temp_p = user_link_in_bio_info.objects.get(link_user_info=temp_user_info)
+            temp_link_in_bio_form = add_user_link_in_bio_info_form(request.GET or None, initial=model_to_dict(temp_p))
+            temp_new_link_form = add_link_in_bio_links_form(request.GET or None,)
+            context['new_link_form'] = temp_new_link_form
+            context['link_in_bio_form'] = temp_link_in_bio_form
+
+        else:
+            temp_link_in_bio_form = add_user_link_in_bio_info_form(request.GET or None,)
+            context['link_in_bio_form'] = temp_link_in_bio_form
+
+        return render(request, "portfolio/manage_link_in_bio.html", context)
+
+    def post(self, request):
+        context = {}
+        if check_authentication(request) != None:
+            return check_authentication(request)
+
+        temp_user_info = User.objects.get(id=request.user.id)
+        if user_link_in_bio_info.objects.filter(link_user_info=temp_user_info).exists():
+            temp_user_link_in_bio = user_link_in_bio_info.objects.get(link_user_info=temp_user_info)
+
+        if "link_order" in request.POST.keys():
+            
+            temp_link_form_to_create = add_link_in_bio_links_form(request.POST or None)
+            if temp_link_form_to_create.is_valid():
+                link_to_create = temp_link_form_to_create.save(commit=False)
+                link_to_create.user_link = temp_user_link_in_bio
+                link_to_create.save()
+
+                temp_link_form_to_create = add_link_in_bio_links_form(request.POST or None)
+                temp_link_in_bio_form = add_user_link_in_bio_info_form(request.GET or None, initial=model_to_dict(user_link_in_bio_info.objects.get(link_user_info=temp_user_info)))
+                context['new_link_form'] = temp_link_form_to_create
+                context['link_in_bio_form'] = temp_link_in_bio_form  
+
+                messages.success(request, "link added.")
+                return render(request, "portfolio/manage_link_in_bio.html", context)
+
+            else:
+                temp_link_form_to_create = add_link_in_bio_links_form(request.POST or None)
+                temp_link_in_bio_form = add_user_link_in_bio_info_form(request.GET or None, initial=model_to_dict(user_link_in_bio_info.objects.get(link_user_info=temp_user_info)))
+                context['new_link_form'] = temp_link_form_to_create
+                context['link_in_bio_form'] = temp_link_in_bio_form
+
+                messages.warning(request, "something went wrong, please try again.")
+                return render(request, "portfolio/manage_link_in_bio.html", context)    
+
+        elif "instagram_link" in request.POST.keys():
+            temp_link_in_bio_form_to_create = add_user_link_in_bio_info_form(request.POST or None)
+            if temp_link_in_bio_form_to_create.is_valid():
+                link_in_bio_to_create = temp_link_in_bio_form_to_create.save(commit=False)
+                link_in_bio_to_create.link_user_info = temp_user_info
+                link_in_bio_to_create.save()
+            else:
+                temp_link_in_bio_form_to_create = add_user_link_in_bio_info_form(request.POST or None)
+                context['link_in_bio_form'] = temp_link_in_bio_form_to_create
+    
+                messages.warning(request, "something went wrong, please try again.")
+                return render(request, "portfolio/manage_link_in_bio.html", context)
+        else:
+
+            if user_link_in_bio_info.objects.filter(link_user_info=temp_user_info).exists():
+                temp_link_in_bio_form = add_user_link_in_bio_info_form(request.GET or None, initial=user_link_in_bio_info.objects.get(link_user_info=temp_user_info))
+                temp_new_link_form = add_link_in_bio_links_form(request.GET or None,)
+                context['new_link_form'] = temp_new_link_form
+                context['link_in_bio_form'] = temp_link_in_bio_form
+
+            else:
+                temp_link_in_bio_form = add_user_link_in_bio_info_form(request.GET or None,)
+                context['link_in_bio_form'] = temp_link_in_bio_form
+
+            return render(request, "portfolio/manage_link_in_bio.html", context)
+
+    def see_link_in_bio(request, user_info_id):
+            context = {}
+    
+            if User.objects.filter(id=user_info_id).exists():
+                temp_user = User.objects.get(id=user_info_id)
+                if user_link_in_bio_info.objects.filter(link_user_info=temp_user).exists():
+                    temp_user_link_in_bio = user_link_in_bio_info.objects.get(link_user_info=temp_user)
+                    temp_user_links = link_in_bio_links.objects.filter(user_link=temp_user_link_in_bio)
+                    context['user_link_in_bio'] = temp_user_link_in_bio
+                    context['temp_user_links'] = temp_user_links
+                    context['user_info'] = model_to_dict(temp_user)
+    
+                return render(request, "portfolio/view_link_in_bio.html", context)
+            else:
+                return redirect("/portfolio")
+    
