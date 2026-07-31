@@ -52,8 +52,8 @@ class create_new_projects(View):
 
 class view_project(View):
     def get(self, request, project_id):
-        
         context = {}
+        context['project_id'] = project_id
         if portfolio_projects.objects.filter(id=project_id).exists():
             project_to_see = portfolio_projects.objects.get(id=project_id)
             if project_to_see.project_type == "open_source":
@@ -74,7 +74,7 @@ class view_project(View):
             elif project_to_see.project_type == "services":
                 context['services_body'] = project_to_see.project_description
                 context['services_context'] = project_to_see.project_casestudy
-
+                context['campaign_funnel_id'] = int(project_to_see.project_repo_link)
                 if campaign_funnel.objects.filter(id=int(project_to_see.project_repo_link)).exists():
                     temp_campaign_funnel = campaign_funnel.objects.get(id=project_to_see.project_repo_link)
                     context['campaign_funnel'] = model_to_dict(temp_campaign_funnel)

@@ -17,7 +17,7 @@
             </div>
             
             <div class="main_funnel_hero_form">
-                <form name="new_user_n_info_form" id="new_user_n_info_form" action="" method="post">
+                <form name="new_user_n_info_form" id="new_user_n_info_form" action="/portfolio/campaign/{{campaign_funnel_id}}" method="post">
                     {% csrf_token %}
 
                         {{new_lead_form.as_p|safe}}
