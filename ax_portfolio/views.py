@@ -12,6 +12,10 @@ from django.forms.models import model_to_dict
 from django.conf import settings
 from django.contrib import messages
 
+from portfolio.forms import create_new_lead_form
+from portfolio.models import campaign_funnel
+from django.utils import timezone
+
 
 class authenticate_users(View):
     def get(self, request):
@@ -66,13 +70,23 @@ class about_us(View):
 
         return render(request, './terms.html', context)
 
+    def llms(request):
+        context = {}
+
+        with open('llms.md', 'r', encoding='utf-8') as f:
+            text = f.read()
+
+        context['content'] = markdown.markdown(text)
+
+        return render(request, './terms.html', context)
+
 class contact_us(View):
     def get(self, request):
         context = {}
 
-        DetailedSignUpForm_form = DetailedSignUpForm(request.GET or None)
+        create_new_lead_form_form = create_new_lead_form(request.GET or None)
 
-        context['DetailedSignUpForm_form'] = DetailedSignUpForm_form
+        context['create_new_lead_form_form'] = create_new_lead_form_form
 
         return render(request, './contact_us.html', context)
     
@@ -80,28 +94,39 @@ class contact_us(View):
         context = {}
 
         if request.method == 'POST':
-            DetailedSignUpForm_form = DetailedSignUpForm(request.POST)
-            if DetailedSignUpForm_form.is_valid():
-                DetailedSignUpForm_form.save()
+            create_new_lead_form_form = create_new_lead_form(request.POST)
+            if create_new_lead_form_form.is_valid():
+                temp_campaign_funnel = campaign_funnel.objects.get(id=1)
+                new_lead = create_new_lead_form_form.save(commit=False)
+                new_lead.created_date = timezone.now()
+                new_lead.campaign_funnel = temp_campaign_funnel
+                try:
+                    new_lead.save()
+                    messages.success(request, "Thank you for reaching out, we will be in touch shortly!")
+                    return redirect('/contact')
                 
-                return redirect('/login')
-        else:
-            DetailedSignUpForm_form = DetailedSignUpForm()
+                except:
+                    create_new_lead_form_form = create_new_lead_form(request.POST)
+            else:
+                create_new_lead_form_form = create_new_lead_form(request.POST)
 
-        context['DetailedSignUpForm_form'] = DetailedSignUpForm_form
+        else:
+            create_new_lead_form_form = create_new_lead_form()
+
+        context['create_new_lead_form_form'] = create_new_lead_form_form
         return render(request, './contact_us.html', context)
 
 
 class home_page(View):
     def get(self, request):
-        funnel_id = 1       
+        funnel_id = 3       
         context = {}
 
         if campaign_funnel.objects.filter(id=funnel_id).exists():
             temp_campaign_funnel = campaign_funnel.objects.get(id=funnel_id)
             context['campaign_funnel'] = model_to_dict(temp_campaign_funnel)
+            context["new_lead_form"] = create_new_lead_form(request.GET or None)
 
-            context["new_user_form"] = DetailedSignUpForm(request.GET or None)
             temp_input_form = json.loads(temp_campaign_funnel.funnel_input_form)
             for key in temp_input_form.keys():
                 if not isinstance(temp_input_form[key], list):
@@ -120,21 +145,22 @@ class home_page(View):
             return redirect("/portfolio")
     
     def post(self, request):
-        funnel_id = 1
+        funnel_id = 3
         context = {}
 
         if campaign_funnel.objects.filter(id=funnel_id).exists():
             temp_campaign_funnel = campaign_funnel.objects.get(id=funnel_id)
             context['campaign_funnel'] = model_to_dict(temp_campaign_funnel)
-
             temp_funnel_name = str(temp_campaign_funnel.funnel_name).replace(" ", "_")
 
-            temp_user_form = DetailedSignUpForm(request.POST)
+            temp_user_lead = create_new_lead_form(request.POST)
+            if temp_user_lead.is_valid():
+                new_lead = temp_user_lead.save(commit=False)
+                new_lead.created_date = timezone.now()
+                new_lead.campaign_funnel = temp_campaign_funnel
 
-            if temp_user_form.is_valid():
-                new_user = temp_user_form.save(commit=False)
-                new_user.save()
-                temp_output_dict = {"user_id":str(new_user.id)}
+                new_lead.save()
+                temp_output_dict = {"lead_id":str(new_lead.id)}
                 for key, value in json.loads(temp_campaign_funnel.funnel_input_form).items():
                     if key in request.POST.keys():
                         temp_output_dict[key] = request.POST[key]
@@ -143,16 +169,12 @@ class home_page(View):
                 db_conf = settings.DATABASES['default']
                 db_conn = sqlite3.connect(db_conf['NAME'])
             
-                try:
-                    output_df.to_sql(temp_funnel_name, db_conn, if_exists="append", index=False)
-                    messages.success(request, "Thank you for your interest, we will be in touch soon!.")
-                    return redirect("/")
-                except:
-                    messages.warning(request, "Something went wrong, please try again.")
+                output_df.to_sql(temp_funnel_name, db_conn, if_exists="append", index=False)
+                messages.success(request, "Thank you for your interest, we will contact you soon!.")
                 
+            else:
+                context["new_lead_form"] = create_new_lead_form(request.POST)
 
-
-            context["new_user_form"] = DetailedSignUpForm(request.POST or None)
             temp_input_form = json.loads(temp_campaign_funnel.funnel_input_form)
             for key in temp_input_form.keys():
                 if not isinstance(temp_input_form[key], list):

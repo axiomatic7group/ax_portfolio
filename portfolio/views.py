@@ -54,54 +54,107 @@ class view_project(View):
     def get(self, request, project_id):
         
         context = {}
-
         if portfolio_projects.objects.filter(id=project_id).exists():
             project_to_see = portfolio_projects.objects.get(id=project_id)
-       
-            get_github_info = requests.get(f"https://api.github.com/repos/{project_to_see.project_repo_link}")
-            get_github_readme = requests.get(f"https://api.github.com/repos/{project_to_see.project_repo_link}/readme", headers={"Accept": "application/vnd.github.raw+json"})
-            if get_github_readme.status_code == 200:
-                github_readme = get_github_readme.text
-                context['github_readme'] = markdown.markdown(github_readme)
-            
-            if get_github_info.status_code == 200:
-                github_info = get_github_info.json()
-                context['github_info'] = github_info
+            if project_to_see.project_type == "open_source":
+                get_github_info = requests.get(f"https://api.github.com/repos/{project_to_see.project_repo_link}")
+                get_github_readme = requests.get(f"https://api.github.com/repos/{project_to_see.project_repo_link}/readme", headers={"Accept": "application/vnd.github.raw+json"})
+                if get_github_readme.status_code == 200:
+                    github_readme = get_github_readme.text
+                    context['github_readme'] = markdown.markdown(github_readme)
+                
+                if get_github_info.status_code == 200:
+                    github_info = get_github_info.json()
+                    context['github_info'] = github_info
 
-            context['project_to_see'] = model_to_dict(project_to_see)
+                context['project_to_see'] = model_to_dict(project_to_see)
 
-            return render(request, "portfolio/view_project.html", context)
+                return render(request, "portfolio/view_project.html", context)
+
+            elif project_to_see.project_type == "services":
+                context['services_body'] = project_to_see.project_description
+                context['services_context'] = project_to_see.project_casestudy
+
+                if campaign_funnel.objects.filter(id=int(project_to_see.project_repo_link)).exists():
+                    temp_campaign_funnel = campaign_funnel.objects.get(id=project_to_see.project_repo_link)
+                    context['campaign_funnel'] = model_to_dict(temp_campaign_funnel)
+
+                    context["new_lead_form"] = create_new_lead_form(request.GET or None)
+                    
+                    temp_input_form = json.loads(temp_campaign_funnel.funnel_input_form)
+                    for key in temp_input_form.keys():
+                        if not isinstance(temp_input_form[key], list):
+                            temp_input_form[key] = [temp_input_form[key]]
+                    context["funnel_input_form"] = temp_input_form
+
+                    if temp_campaign_funnel.funnel_hero_img:
+                        context["funnel_hero_img"] = temp_campaign_funnel.funnel_hero_img
+                    else:
+                        with open(temp_campaign_funnel.funnel_hero_md, 'r', encoding='utf-8') as f:
+                            text = f.read()
+                        context["funnel_hero_md"] = markdown.markdown(text)
+
+                return render(request, "portfolio/view_service.html", context)
+            else:
+                return redirect('/portfolio')
         else:
-            redirect('/portfolio')
+            return redirect('/portfolio')
     
     def post(self, request, project_id):
-        
         context = {}
-
         if portfolio_projects.objects.filter(id=project_id).exists():
             project_to_see = portfolio_projects.objects.get(id=project_id)
-       
-            get_github_info = requests.get(f"https://api.github.com/repos/{project_to_see.project_repo_link}")
-            get_github_readme = requests.get(f"https://api.github.com/repos/{project_to_see.project_repo_link}/readme", headers={"Accept": "application/vnd.github.raw+json"})
-            if get_github_readme.status_code == 200:
-                github_readme = get_github_readme.text
-                context['github_readme'] = markdown.markdown(github_readme)
-            
-            if get_github_info.status_code == 200:
-                github_info = get_github_info.json()
-                context['github_info'] = github_info
+            print(project_to_see)
+            if project_to_see.project_type == "open_source":
 
-            context['project_to_see'] = model_to_dict(project_to_see)
+                get_github_info = requests.get(f"https://api.github.com/repos/{project_to_see.project_repo_link}")
+                get_github_readme = requests.get(f"https://api.github.com/repos/{project_to_see.project_repo_link}/readme", headers={"Accept": "application/vnd.github.raw+json"})
+                if get_github_readme.status_code == 200:
+                    github_readme = get_github_readme.text
+                    context['github_readme'] = markdown.markdown(github_readme)
+                
+                if get_github_info.status_code == 200:
+                    github_info = get_github_info.json()
+                    context['github_info'] = github_info
 
-            return render(request, "portfolio/view_project.html", context)
+                context['project_to_see'] = model_to_dict(project_to_see)
+
+                return render(request, "portfolio/view_project.html", context)
+
+            elif project_to_see.project_type == "services":
+                context['services_body'] = project_to_see.project_description
+                context['services_context'] = project_to_see.project_casestudy
+
+                if campaign_funnel.objects.filter(id=project_to_see.project_repo_link).exists():
+                    temp_campaign_funnel = campaign_funnel.objects.get(id=project_to_see.project_repo_link)
+                    context['campaign_funnel'] = model_to_dict(temp_campaign_funnel)
+
+                    context["new_lead_form"] = create_new_lead_form(request.GET or None)
+                    
+                    temp_input_form = json.loads(temp_campaign_funnel.funnel_input_form)
+                    for key in temp_input_form.keys():
+                        if not isinstance(temp_input_form[key], list):
+                            temp_input_form[key] = [temp_input_form[key]]
+                    context["funnel_input_form"] = temp_input_form
+
+                    if temp_campaign_funnel.funnel_hero_img:
+                        context["funnel_hero_img"] = temp_campaign_funnel.funnel_hero_img
+                    else:
+                        with open(temp_campaign_funnel.funnel_hero_md, 'r', encoding='utf-8') as f:
+                            text = f.read()
+                        context["funnel_hero_md"] = markdown.markdown(text)
+                
+                return render(request, "portfolio/view_service.html", context)
+            else:
+                return redirect('/portfolio')
         else:
-            redirect('/portfolio')
+            return redirect('/portfolio')
 
 class view_portfolio(View):
     def get(self, request):
         context = {}
 
-        get_all_projects = portfolio_projects.objects.all()
+        get_all_projects = portfolio_projects.objects.filter(project_type="open_source")
 
         context['all_projects'] = get_all_projects.values()
 
@@ -133,7 +186,7 @@ class create_campaign_funnel(View):
             temp_funnel_dict = json.loads(new_campaign_funnel.funnel_input_form)
             temp_funnel_dict_key_list = list(temp_funnel_dict.keys())
             
-            temp_funnel_dict_key_list.append("user_id")
+            temp_funnel_dict_key_list.append("lead_id")
             temp_funnel_name = str(new_campaign_funnel.funnel_name).replace(" ", "_")
 
             db_conf = settings.DATABASES['default']
@@ -161,7 +214,8 @@ class view_campaign_funnel(View):
             temp_campaign_funnel = campaign_funnel.objects.get(id=funnel_id)
             context['campaign_funnel'] = model_to_dict(temp_campaign_funnel)
 
-            context["new_user_form"] = DetailedSignUpForm(request.GET or None)
+            context["new_lead_form"] = create_new_lead_form(request.GET or None)
+            
             temp_input_form = json.loads(temp_campaign_funnel.funnel_input_form)
             for key in temp_input_form.keys():
                 if not isinstance(temp_input_form[key], list):
@@ -181,19 +235,23 @@ class view_campaign_funnel(View):
     
     def post(self, request, funnel_id):
         context = {}
+        if check_authentication(request) != None:
+            return check_authentication(request)
 
         if campaign_funnel.objects.filter(id=funnel_id).exists():
             temp_campaign_funnel = campaign_funnel.objects.get(id=funnel_id)
             context['campaign_funnel'] = model_to_dict(temp_campaign_funnel)
 
             temp_funnel_name = str(temp_campaign_funnel.funnel_name).replace(" ", "_")
+            temp_user_lead = create_new_lead_form(request.POST)
 
-            temp_user_form = DetailedSignUpForm(request.POST)
-
-            if temp_user_form.is_valid():
-                new_user = temp_user_form.save(commit=False)
-                new_user.save()
-                temp_output_dict = {"user_id":str(new_user.id)}
+            if temp_user_lead.is_valid():
+                new_lead = temp_user_lead.save(commit=False)
+                new_lead.created_date = timezone.now()
+                new_lead.campaign_funnel = temp_campaign_funnel
+                new_lead.save()
+                
+                temp_output_dict = {"lead_id":str(new_lead.id)}
                 for key, value in json.loads(temp_campaign_funnel.funnel_input_form).items():
                     if key in request.POST.keys():
                         temp_output_dict[key] = request.POST[key]
@@ -202,16 +260,14 @@ class view_campaign_funnel(View):
                 db_conf = settings.DATABASES['default']
                 db_conn = sqlite3.connect(db_conf['NAME'])
             
-                try:
-                    output_df.to_sql(temp_funnel_name, db_conn, if_exists="append", index=False)
-                    messages.success(request, "Thank you for your interest, we will be in touch soon!.")
-                    redirect("/")
-                except:
-                    messages.warning(request, "Something went wrong, please try again.")
-                
+                output_df.to_sql(temp_funnel_name, db_conn, if_exists="append", index=False)
+                messages.success(request, "Thank you for your interest, we will contact you soon!.")
+                return redirect("/")
 
+            else:
+                context["new_lead_form"] = create_new_lead_form(request.POST)
+            
 
-            context["new_user_form"] = DetailedSignUpForm(request.POST or None)
             temp_input_form = json.loads(temp_campaign_funnel.funnel_input_form)
             for key in temp_input_form.keys():
                 if not isinstance(temp_input_form[key], list):
@@ -236,26 +292,24 @@ class view_campaign_funnel(View):
         if campaign_funnel.objects.filter(id=funnel_id).exists():
             temp_campaign_funnel = campaign_funnel.objects.get(id=funnel_id)
             context['campaign_funnel'] = model_to_dict(temp_campaign_funnel)
-            temp_users_list = pd.DataFrame(User.objects.all().values())
-            relevant_user_list = temp_users_list[['id', 'email', 'first_name', 'last_name', 'date_joined']]
+
+            temp_leads_list = pd.DataFrame(campaign_funnel_lead.objects.all().values())
+            relevant_lead_list = temp_leads_list[['id', 'email', 'first_name', 'last_name', 'date_created']]
 
             temp_funnel_name = str(temp_campaign_funnel.funnel_name).replace(" ", "_")
             db_conf = settings.DATABASES['default']
             db_conn = sqlite3.connect(db_conf['NAME'])
 
             temp_df = pd.read_sql(f'SELECT * FROM \"{temp_funnel_name}\";', db_conn)
-            temp_df['user_id'] = temp_df['user_id'].astype('int')
+            temp_df['lead_id'] = temp_df['lead_id'].astype('int')
 
-            output = pd.merge(temp_df, relevant_user_list, how='left', left_on='user_id', right_on='id')
+            output = pd.merge(temp_df, relevant_lead_list, how='left', left_on='lead_id', right_on='id')
+            output['lead_id_a'] = output['lead_id'].apply(lambda x: f'<a href="/cadence/projects/lead-{x}" target="_blank"> {x} </a>')
             context['temp_df'] = output.style.set_table_attributes('class="table" style="color: var(--text);"').to_html(index=False)
 
             return render(request, "portfolio/view_all_campaign_funnel.html", context)
 
-        else:
-            return redirect("/portfolio")
-
-    
-
+        
 class campaign_faq_view(View):
     def get(self, request, campaign_faq_id):    
         context = {}
@@ -298,10 +352,8 @@ class link_in_bio(View):
             return check_authentication(request)
         
         temp_user_info = User.objects.get(id=request.user.id)
-        print(temp_user_info)
 
         if user_link_in_bio_info.objects.filter(link_user_info=temp_user_info).exists():
-            print("yes")
             temp_p = user_link_in_bio_info.objects.get(link_user_info=temp_user_info)
             temp_link_in_bio_form = add_user_link_in_bio_info_form(request.GET or None, initial=model_to_dict(temp_p))
             temp_new_link_form = add_link_in_bio_links_form(request.GET or None,)

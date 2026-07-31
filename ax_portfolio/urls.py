@@ -27,6 +27,7 @@ urlpatterns = [
     path('about/', views.about_us.about_us, name='about_us_html'),
     path('privacy/', views.about_us.privacy, name='privacy_html'),
     path('terms/', views.about_us.terms, name='terms_html'),
+    path('llms/', views.about_us.llms, name='llms_html'),
     path('', views.home_page.as_view(), name='home_page_html'),
 
 ]

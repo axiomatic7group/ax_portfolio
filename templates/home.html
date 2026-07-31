@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base public.html" %}
 {% block main_content %}
 
 <style>
@@ -292,7 +292,7 @@
             <form name="new_user_n_info_form" id="new_user_n_info_form" action="" method="post">
                 {% csrf_token %}
 
-                    {{new_user_form.as_p|safe}}
+                    {{new_lead_form.as_p|safe}}
 
 
                     {% for key, value in funnel_input_form.items %}

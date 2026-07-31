@@ -1,13 +1,13 @@
-{% extends "base.html" %}
+{% extends "base public.html" %}
 {% block  main_content %}
 
 <div class="form_div" >
-    <form name='DetailedSignUpForm_form' id='DetailedSignUpForm_form' action='/contact/' method='post'>
+    <form name='create_new_lead_form_form' id='create_new_lead_form_form' action='/contact/' method='post'>
         {% csrf_token %}
 
-        {{DetailedSignUpForm_form.as_p|safe}}
+        {{create_new_lead_form_form.as_p|safe}}
 
-        <input type="submit" value="Sign Up">
+        <input type="submit" value="Get In Touch With us Today!">
 
     </form>
 </div>
