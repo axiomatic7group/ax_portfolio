@@ -1973,6 +1973,12 @@ main {
     margin: 1%;
 }
 
+.faq_link {
+    color: var(--highlight) !important;
+    font-weight: bold;
+    text-decoration: none;
+}
+
 /* Badge Typography Configuration */
 .badge {
     display: inline-block;

@@ -119,7 +119,7 @@ class contact_us(View):
 
 class home_page(View):
     def get(self, request):
-        funnel_id = 3       
+        funnel_id = 5       
         context = {}
 
         if campaign_funnel.objects.filter(id=funnel_id).exists():
@@ -145,7 +145,7 @@ class home_page(View):
             return redirect("/portfolio")
     
     def post(self, request):
-        funnel_id = 3
+        funnel_id = 5
         context = {}
 
         if campaign_funnel.objects.filter(id=funnel_id).exists():
