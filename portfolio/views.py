@@ -317,7 +317,7 @@ class campaign_faq_view(View):
             context['campaign_faq'] = model_to_dict(temp_campaign_faq)
             return render(request, "portfolio/view_campaign_faq.html", context)
         else:
-            return redirect("/portfolio")
+            return redirect("/")
 
     def post(self, request, campaign_faq_id):
         context = {}
@@ -331,7 +331,7 @@ class campaign_faq_view(View):
 
             return render(request, "portfolio/view_campaign_faq.html", context)
         else:
-            return redirect("/portfolio")
+            return redirect("/")
 
     def see_blog_post(request, blog_post_id):
         context = {}
@@ -342,7 +342,7 @@ class campaign_faq_view(View):
 
             return render(request, "portfolio/view_blog_post.html", context)
         else:
-            return redirect("/portfolio")
+            return redirect("/")
 
 class link_in_bio(View):
     def get(self, request):

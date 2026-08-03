@@ -3,7 +3,7 @@ from django.views import View
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 
-import requests, markdown, json, sqlite3
+import requests, markdown, json, sqlite3, os
 import pandas as pd
 from sqlalchemy import create_engine
 from portfolio.forms import DetailedSignUpForm
@@ -11,6 +11,7 @@ from portfolio.models import campaign, campaign_funnel
 from django.forms.models import model_to_dict
 from django.conf import settings
 from django.contrib import messages
+from django.http import FileResponse
 
 from portfolio.forms import create_new_lead_form
 from portfolio.models import campaign_funnel
@@ -79,6 +80,26 @@ class about_us(View):
         context['content'] = markdown.markdown(text)
 
         return render(request, './terms.html', context)
+
+    def manifesto(request):
+            context = {}
+    
+            with open('manifesto.md', 'r', encoding='utf-8') as f:
+                text = f.read()
+    
+            context['content'] = markdown.markdown(text)
+    
+            return render(request, './terms.html', context)
+
+    def download_file(request):
+        file_path = os.path.join(settings.MEDIA_ROOT, 'manifesto.md')
+        
+        if not os.path.exists(file_path):
+            return redirect("/")
+            
+        file_to_download = open(file_path, 'rb')
+        
+        return FileResponse(file_to_download, as_attachment=True, filename='manifesto.md')
 
 class contact_us(View):
     def get(self, request):
@@ -189,3 +210,6 @@ class home_page(View):
                 context["funnel_hero_md"] = markdown.markdown(text)
 
         return render(request, "home.html", context)
+
+
+

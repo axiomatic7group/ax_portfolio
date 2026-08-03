@@ -28,6 +28,8 @@ urlpatterns = [
     path('privacy/', views.about_us.privacy, name='privacy_html'),
     path('terms/', views.about_us.terms, name='terms_html'),
     path('llms/', views.about_us.llms, name='llms_html'),
+    path('manifesto/', views.about_us.manifesto, name='manifesto_html'),
+    path('manifesto/download/', views.about_us.download_file, name='manifesto_download'),
     path('', views.home_page.as_view(), name='home_page_html'),
 
 ]
