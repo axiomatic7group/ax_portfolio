@@ -96,15 +96,14 @@ class view_project(View):
 
                 return render(request, "portfolio/view_service.html", context)
             else:
-                return redirect('/portfolio')
+                return redirect('/')
         else:
-            return redirect('/portfolio')
+            return redirect('/')
     
     def post(self, request, project_id):
         context = {}
         if portfolio_projects.objects.filter(id=project_id).exists():
             project_to_see = portfolio_projects.objects.get(id=project_id)
-            print(project_to_see)
             if project_to_see.project_type == "open_source":
 
                 get_github_info = requests.get(f"https://api.github.com/repos/{project_to_see.project_repo_link}")
@@ -146,9 +145,9 @@ class view_project(View):
                 
                 return render(request, "portfolio/view_service.html", context)
             else:
-                return redirect('/portfolio')
+                return redirect('/')
         else:
-            return redirect('/portfolio')
+            return redirect('/')
 
 class view_portfolio(View):
     def get(self, request):
@@ -231,7 +230,7 @@ class view_campaign_funnel(View):
 
             return render(request, "portfolio/view_campaign_funnel.html", context)
         else:
-            return redirect("/portfolio")
+            return redirect("/")
     
     def post(self, request, funnel_id):
         context = {}
@@ -440,5 +439,5 @@ class link_in_bio(View):
     
                 return render(request, "portfolio/view_link_in_bio.html", context)
             else:
-                return redirect("/portfolio")
+                return redirect("/")
     

@@ -34,7 +34,7 @@ class authenticate_users(View):
             if user is not None:
                 login(request, user)
                 
-                return redirect('/portfolio')
+                return redirect('/')
 
         context = {'user_auth_form':user_auth_form}
         return render(request, './login.html', context)
@@ -142,7 +142,7 @@ class home_page(View):
 
             return render(request, "home.html", context)
         else:
-            return redirect("/portfolio")
+            return redirect("/")
     
     def post(self, request):
         funnel_id = 5

@@ -1979,6 +1979,12 @@ main {
     text-decoration: none;
 }
 
+.faq_link:hover {
+    color: var(--text) !important;
+    font-weight: bold;
+    text-decoration: none;
+}
+
 /* Badge Typography Configuration */
 .badge {
     display: inline-block;
