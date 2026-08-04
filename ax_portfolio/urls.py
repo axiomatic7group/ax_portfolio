@@ -19,7 +19,20 @@ from django.urls import path, include
 
 from . import views
 
+from django.contrib.sitemaps.views import sitemap
+from .sitemaps import StaticViewSitemap, BlogSitemap, FAQSitemap, FunnelSitemap, ServicesSitemap
+
+sitemaps = {
+    'static': StaticViewSitemap,
+    'blog': BlogSitemap,
+    'faq': FAQSitemap,
+    'funnels': FunnelSitemap,
+    'services': ServicesSitemap,
+}
+
 urlpatterns = [
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+
     path('portfolio/', include("portfolio.urls")),
     path('admin/', admin.site.urls),
     path('login/', views.authenticate_users.as_view(), name='login_html'),

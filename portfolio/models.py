@@ -4,6 +4,9 @@ from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 
+from django.urls import reverse
+
+
 alphanumeric = RegexValidator(r'^[0-9a-zA-Z ]*$', 'Only alphanumeric characters are allowed.')
 phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
 
@@ -26,6 +29,13 @@ class portfolio_projects(models.Model):
     project_hero_image = models.CharField(max_length=254, blank=True, null=True)
     project_type = models.CharField(max_length=75, choices=project_type_list)
 
+    slug = models.CharField(max_length=250, blank=True, null=True)
+
+    def get_absolute_url(self):
+        if not self.slug:
+            return ""
+        return reverse('service_view', kwargs={'project_id': self.slug})
+
 class campaign(models.Model):
     date_created = models.DateField('date created', default=timezone.now)
     campaign_name = models.CharField(max_length=254, validators=[alphanumeric])
@@ -37,6 +47,12 @@ class campaign_funnel(models.Model):
     funnel_input_form = models.TextField(default='{"message":"placeholder"}')
     funnel_hero_img = models.CharField(max_length=350, blank=True, null=True)
     funnel_hero_md = models.CharField(max_length=350, blank=True, null=True)
+
+    slug = models.CharField(max_length=250, blank=True, null=True)
+    def get_absolute_url(self):
+        if not self.slug:
+            return ""
+        return reverse('view_campaign_funnel_view', kwargs={'funnel_id': self.slug})
 
 
 class campaign_funnel_lead(models.Model):
@@ -56,10 +72,22 @@ class campaign_faq(models.Model):
     faq_campaign = models.ForeignKey(campaign, on_delete=models.CASCADE)
     faq_md = models.TextField(blank=True, null=True)
 
+    slug = models.CharField(max_length=250, blank=True, null=True)
+    def get_absolute_url(self):
+        if not self.slug:
+            return ""
+        return reverse('campaign_faq_view', kwargs={'campaign_faq_id': self.slug})
+
 class campaign_blog(models.Model):
     blog_name = models.TextField(validators=[alphanumeric], unique=True)
     blog_campaign = models.ForeignKey(campaign, on_delete=models.CASCADE)
     blog_md = models.TextField(blank=True, null=True)
+
+    slug = models.CharField(max_length=250, blank=True, null=True)
+    def get_absolute_url(self):
+        if not self.slug:
+            return ""
+        return reverse('campaign_blog_view', kwargs={'blog_post_id': self.slug})
 
 
 class user_link_in_bio_info(models.Model):
