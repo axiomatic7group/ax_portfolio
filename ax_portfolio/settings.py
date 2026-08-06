@@ -61,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'ax_portfolio.middleware.AgentDiscoveryMiddleware', 
 ]
 
 ROOT_URLCONF = 'ax_portfolio.urls'

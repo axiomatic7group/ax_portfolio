@@ -1,6 +1,20 @@
 
 {% extends "base public.html" %}
-{% block  main_content %}  
+{% block  main_content %}
+    <script type="application/ld+json">
+    {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "{{campaign_funnel.slug}}",
+    "description": "Fractional C-Suite services engineered for technical founders. We deploy an internal AI Operating System to scale your financial architecture from day one, giving you an automated off-ramp when you are ready to hire in-house.",
+    "provider": {
+        "@type": "AI Fractional C-Suite/Consulting",
+        "name": "Fractional C-Suite by Axiomatic Lab",
+        "url": "https://axiomaticlab.com"
+    }
+    }
+    </script>
+
 
     <div class="services_body">
         {{services_body|safe}}
