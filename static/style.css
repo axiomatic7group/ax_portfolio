@@ -2458,6 +2458,7 @@ h1 {
 }
 
 
+
 @media screen and (max-width: 600px) {
     .grid-3 { grid-template-columns: 1fr; }
     .split-layout { grid-template-columns: 1fr; gap: 32px; }

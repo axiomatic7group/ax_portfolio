@@ -53,9 +53,11 @@ class create_new_projects(View):
 class view_project(View):
     def get(self, request, project_id):
         context = {}
-        context['project_id'] = project_id
+        context['project_id'] = str(project_id)
+        print('yes', project_id)
         if portfolio_projects.objects.filter(slug=project_id).exists():
             project_to_see = portfolio_projects.objects.get(slug=project_id)
+            print(project_to_see, project_to_see.project_type)
             if project_to_see.project_type == "open_source":
                 get_github_info = requests.get(f"https://api.github.com/repos/{project_to_see.project_repo_link}")
                 get_github_readme = requests.get(f"https://api.github.com/repos/{project_to_see.project_repo_link}/readme", headers={"Accept": "application/vnd.github.raw+json"})
@@ -104,6 +106,7 @@ class view_project(View):
         context = {}
         if portfolio_projects.objects.filter(slug=project_id).exists():
             project_to_see = portfolio_projects.objects.get(slug=project_id)
+
             if project_to_see.project_type == "open_source":
 
                 get_github_info = requests.get(f"https://api.github.com/repos/{project_to_see.project_repo_link}")

@@ -101,6 +101,18 @@ class about_us(View):
         
         return FileResponse(file_to_download, as_attachment=True, filename='manifesto.md')
 
+    def view_pdf(request, pdf_name):
+        # Construct the absolute path to your PDF file
+        pdf_path = os.path.join(settings.MEDIA_ROOT, str(pdf_name) + ".pdf")
+        
+        try:
+            # Open the file in binary read mode
+            file_stream = open(pdf_path, 'rb')
+            # Setting as_attachment=False opens it inside the browser tab
+            return FileResponse(file_stream, content_type='application/pdf')
+        except FileNotFoundError:
+            return redirect("/")
+
 class contact_us(View):
     def get(self, request):
         context = {}
