@@ -207,6 +207,11 @@ nav.navbar-dark {
 
 }
 
+.dropdown-header {
+    color: var(--highlight) !important;
+    font-size: inherit !important;
+}
+
 nav .dropdown-menu.show {
     background: linear-gradient(0deg, var(--bg-light) 0%, var(--bg-dark) 100%) !important;
     font-size: 14px;
