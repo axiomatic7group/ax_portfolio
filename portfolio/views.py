@@ -54,7 +54,6 @@ class view_project(View):
     def get(self, request, project_id):
         context = {}
         context['project_id'] = str(project_id)
-        print('yes', project_id)
         if portfolio_projects.objects.filter(slug=project_id).exists():
             project_to_see = portfolio_projects.objects.get(slug=project_id)
             print(project_to_see, project_to_see.project_type)
@@ -77,9 +76,10 @@ class view_project(View):
                 context['services_body'] = project_to_see.project_description
                 context['services_context'] = project_to_see.project_casestudy
                 context['campaign_funnel_id'] = int(project_to_see.project_repo_link)
-                if campaign_funnel.objects.filter(slug=int(project_to_see.project_repo_link)).exists():
-                    temp_campaign_funnel = campaign_funnel.objects.get(slug=project_to_see.project_repo_link)
+                if campaign_funnel.objects.filter(id=int(project_to_see.project_repo_link)).exists():
+                    temp_campaign_funnel = campaign_funnel.objects.get(id=project_to_see.project_repo_link)
                     context['campaign_funnel'] = model_to_dict(temp_campaign_funnel)
+                    print(context['campaign_funnel'])
 
                     context["new_lead_form"] = create_new_lead_form(request.GET or None)
                     
@@ -127,8 +127,8 @@ class view_project(View):
                 context['services_body'] = project_to_see.project_description
                 context['services_context'] = project_to_see.project_casestudy
 
-                if campaign_funnel.objects.filter(slug=project_to_see.project_repo_link).exists():
-                    temp_campaign_funnel = campaign_funnel.objects.get(slug=project_to_see.project_repo_link)
+                if campaign_funnel.objects.filter(id=project_to_see.project_repo_link).exists():
+                    temp_campaign_funnel = campaign_funnel.objects.get(id=project_to_see.project_repo_link)
                     context['campaign_funnel'] = model_to_dict(temp_campaign_funnel)
 
                     context["new_lead_form"] = create_new_lead_form(request.GET or None)

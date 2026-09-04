@@ -165,7 +165,7 @@
 }
 
 body {
-    font-family: 'Lucida Consosle', monospace;
+    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif !important;
     background: var(--bg);
     color: var(--text);
     display: flex;
@@ -175,13 +175,8 @@ body {
 }
 
 nav a {
-    font-family: 'Lucida Consosle', monospace !important;
+    font-family: 'Bodoni Moda', Bodoni, Didot, serif ;
     color: var(--text) !important;
-}
-
-.navbar-brand {
-    font-weight: bold;
-    color: var(--brand-primary) !important;
 }
 
 nav.navbar-expand-md {
@@ -203,11 +198,17 @@ nav.navbar-dark {
     color: var(--text-muted) !important;
 }
 
+.dropdown-divider {
+    height: 0;
+    margin: var(--bs-dropdown-divider-margin-y) 0;
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+    opacity: 1;
+
+}
+
 nav .dropdown-menu.show {
     background: linear-gradient(0deg, var(--bg-light) 0%, var(--bg-dark) 100%) !important;
-    border-style: solid;
-    border-width: thin;
-    border-color: var(--border);
     font-size: 14px;
 }
 
@@ -232,6 +233,84 @@ nav .dropdown-menu.show a:hover {
     border-color: var(--highlight);
     border-radius: 5px;
     color: var(--text);
+}
+
+.navbar-collapse {
+    flex-flow: column;
+}
+
+.top_nav a {
+    color: var(--text);
+}
+
+.top_nav a:hover {
+    color: var(--text-muted) !important;
+}
+
+.navbar-brand {
+    text-decoration: none;
+    color: var(--brand-primary) !important;
+    font-weight: bold;
+}
+
+.navbar-toggler {
+    background: var(--border);
+}
+
+.navbar-brand:hover {
+    text-decoration: none;
+    color: var(--text) !important;
+    font-weight: bold;
+}
+
+.bottom-nav .links a {
+    font-weight: bold;
+    margin: 0 1%;
+    text-decoration: none;
+    color: var(--highlight) !important;
+
+}
+
+.bottom-nav .links a:hover {
+    font-weight: bold;
+    margin: 0 1%;
+    text-decoration: none;
+    color: var(--text) !important;
+
+}
+
+.bottom-nav .priv_terms {
+    font-weight: bold;
+    margin: 0 1%;
+    text-decoration: none;
+    color: var(--highlight) !important;
+    width: max-content;
+}
+
+.bottom-nav .priv_terms:hover {
+    font-weight: bold;
+    margin: 0 1%;
+    text-decoration: none;
+    color: var(--text) !important;
+    width: max-content;
+}
+
+.bottom-nav h4 {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text-muted);
+}
+
+.bottom-nav {
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(0deg, var(--bg-dark) 0%, var(--bg-light) 100%);
+    padding: 2% 1%;
+    font-size: 12px;
+    display: flex;
+    align-items: self-start;
+
 }
 
 
@@ -490,10 +569,6 @@ form select:hover {
     margin: 0 !important;
 }
 
-.navbar-brand {
-    font-weight: bold;
-    color: var(--highlight) !important;
-}
 
 .parent_container {
     display: flex;
@@ -845,9 +920,10 @@ form textarea {
 }
 
 .main_content {
-    padding: 0;
+    padding: 1rem;
     display: flex;
     flex-flow: column;
+    background: linear-gradient(0deg, var(--bg-light) 0%, var(--bg-dark) 100%);
 }
 
 .card-text {
@@ -1645,10 +1721,8 @@ p {
 
 .md {
     margin: 1%;
-  padding: 1% 2%;
-  border: solid thin var(--border);
-  border-radius: 10px;
-  background-color: var(--bg-light);
+    padding: 1% 2%;
+    background-color: var(--bg-light);
 }
 
 .md img {
@@ -1656,88 +1730,8 @@ p {
     margin: 0 12.5%;
 }
 
-.top_nav {
-    color: var(--text);
-    border-bottom: var(--border) solid thin;
-    font-size: 14px;
-}
 
 
-
-.top_nav a {
-    color: var(--text);
-}
-
-.top_nav a:hover {
-    color: var(--text-muted) !important;
-}
-
-.navbar-brand {
-    text-decoration: none;
-    color: var(--brand-primary) !important;
-    font-weight: bold;
-}
-
-.navbar-toggler {
-    background: var(--border);
-}
-
-.navbar-brand:hover {
-    text-decoration: none;
-    color: var(--text) !important;
-    font-weight: bold;
-}
-
-.bottom-nav .links a {
-    font-weight: bold;
-    margin: 0 1%;
-    text-decoration: none;
-    color: var(--highlight) !important;
-
-}
-
-.bottom-nav .links a:hover {
-    font-weight: bold;
-    margin: 0 1%;
-    text-decoration: none;
-    color: var(--text) !important;
-
-}
-
-.bottom-nav .priv_terms {
-    font-weight: bold;
-    margin: 0 1%;
-    text-decoration: none;
-    color: var(--highlight) !important;
-    width: max-content;
-}
-
-.bottom-nav .priv_terms:hover {
-    font-weight: bold;
-    margin: 0 1%;
-    text-decoration: none;
-    color: var(--text) !important;
-    width: max-content;
-}
-
-.bottom-nav h4 {
-    font-size: 14px;
-    font-weight: 800;
-    color: var(--text-muted);
-}
-
-.bottom-nav {
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-color: var(--bg-dark);
-    border-top: var(--highlight) solid thin;
-    padding: 2% 1%;
-    font-size: 12px;
-    display: flex;
-    align-items: self-start;
-
-}
 
 .readme {
     border-radius: 5px;
@@ -1874,6 +1868,8 @@ p {
     font-size: larger;
     font-weight: bold;
     margin: 5% 0;
+    overflow-wrap: break-word;
+    white-space: normal;  
 }
 
 .main_funnel_hero_form form input[type=submit]:hover {
@@ -1885,6 +1881,8 @@ p {
     font-size: larger;
     font-weight: bold;
     margin: 5% 0;
+    overflow-wrap: break-word;
+    white-space: normal;  
 }
 
 .main_funnel_hero_form form {
@@ -2162,7 +2160,6 @@ h1 {
 .hero-section {
     padding: 80px 0 60px 0;
     background: var(--bg-dark);
-    border-bottom: 1px solid var(--border);
 }
 
 .hero-section h1 {
@@ -2244,8 +2241,7 @@ h1 {
 .advantage-section {
     padding: 80px 0;
     background: var(--bg-card);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
+
 }
 
 .split-layout {
@@ -2293,7 +2289,7 @@ h1 {
 /* In-Line Call To Action Section */
 .mid-cta-section {
     padding: 60px 0;
-    background: var(--bg);
+    background: linear-gradient(0deg, var(--bg-light) 0%, var(--bg-dark) 100%);
 }
 
 .mid-cta-section h2 {
@@ -2458,7 +2454,6 @@ h1 {
 }
 
 
-
 @media screen and (max-width: 600px) {
     .grid-3 { grid-template-columns: 1fr; }
     .split-layout { grid-template-columns: 1fr; gap: 32px; }
@@ -2466,6 +2461,17 @@ h1 {
     .timeline-header { flex-direction: column; align-items: flex-start; gap: 8px; }
     .lead-form { padding: 24px; }
     .hero-actions { flex-direction: column; }
+
+    .ops-lead-section {
+        max-width: none !important;
+        padding: 0.25rem !important;
+
+    }
+
+    .main_funnel_hero_form form {
+        margin: 0.5rem;
+        width: 100%;
+    }
 
     .main {
         margin: 2px;
@@ -2640,6 +2646,7 @@ h1 {
         display: flex;
         flex-flow: column-reverse;
         align-items: center;
+        padding: 0;
     }
 
     .user_dashboard_body_tasks {
